@@ -11,8 +11,16 @@ echo -n "   Username Account  : "
 read user
 echo -n "   Activation Key ID : "
 read act
-echo -n "   Port Web          : "
+echo -n "   Port Web (64xxx)  : "
 read port
-docker exec -it mysql mysql -uroot -pbaseball -e "CREATE DATABASE wp$user$act;"
-docker run --name wp$user$act -e WORDPRESS_DB_HOST=mysql:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=baseball -e WORDPRESS_DB_NAME=wp$user$act --net=net_wordpress -p $port:80 -d wordpress
+echo -n "   MYSQL Container   : "
+read sqlcont
+echo -n "   Username MYSQL    : "
+read userdb
+echo -n "   Password MYSQL    : "
+read passdb
+echo -n "   Network Container : "
+read netdb
+docker exec -it $qlcont mysql -u$userdb -p$passdb -e "CREATE DATABASE wp$user$act;"
+docker run --name wp$user$act -e WORDPRESS_DB_HOST=$sqlcont:3306 -e WORDPRESS_DB_USER=$userdb -e WORDPRESS_DB_PASSWORD=$passdb -e WORDPRESS_DB_NAME=wp$user$act --net=$netdb -p $port:80 -d wordpress
 docker update --restart unless-stopped wp$user$act 
