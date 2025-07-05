@@ -4,6 +4,7 @@
 #about : setup server docker
 #=====Initiation Package=====#
 apt update && apt upgrade -y
+apt install software-properties-common -y
 apt install docker.io
 #
 #=====Create Image Docker=====#
