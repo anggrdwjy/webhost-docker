@@ -25,4 +25,8 @@ echo "                                                    ";
 echo "   ==============================================   ";
 docker exec -it $sqlcont mysql -u$userdb -p$passdb -e "CREATE DATABASE wp$user$act;"
 docker run --name wp$user$act -e WORDPRESS_DB_HOST=$sqlcont:3306 -e WORDPRESS_DB_USER=$userdb -e WORDPRESS_DB_PASSWORD=$passdb -e WORDPRESS_DB_NAME=wp$user$act --net=$netdb -p $port:80 -d wordpress
-docker update --restart unless-stopped wp$user$act 
+docker update --restart unless-stopped wp$user$act
+#
+#
+#docker exec -it mysql mysql -uroot -pbaseball -e "CREATE DATABASE wordpresstest;"
+#docker run --name wordpresstest -e WORDPRESS_DB_HOST=mysql:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=baseball -e WORDPRESS_DB_NAME=wordpresstest --net=net_wordpress -p 65000:80 -d wordpress
