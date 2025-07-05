@@ -19,11 +19,12 @@ docker volume create portainer_data
 #
 #=====Create Network Docker=====#
 docker network create net_wordpress
+docker network create net_localhost
 #
 #=====Installing Docker Container MYSQL & Portainer=====#
 docker run --name mysql -e MYSQL_ROOT_PASSWORD=baseball -v db_wordpress:/var/lib/mysql --net=net_wordpress -d mysql
-docker run --name portainer -d -p 8000:8000 -p 9443:9443 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
-docker run --name nginx-proxy-manager -p 8181:8181 -p 8080:8080 -p 4443:4443 -v /docker/appdata/nginx-proxy-manager:/config:rw -d jlesage/nginx-proxy-manager
+docker run --name portainer -p 8000:8000 -p 9443:9443 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data --net=net_localhost -d portainer/portainer-ce:lts
+docker run --name nginx-proxy-manager -p 8181:8181 -p 8080:8080 -p 4443:4443 -v /docker/appdata/nginx-proxy-manager:/config:rw --net=net_localhost -d jlesage/nginx-proxy-manager
 docker update --restart unless-stopped mysql portainer nginx-proxy-manager
 #
 #
